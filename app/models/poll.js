@@ -1,13 +1,12 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-//var passportLocalMongoose = require('passport-local-mongoose');
 
-
+// poll options sub-shema
 var PollOptions = new Schema({
 	option: String,
 	votes: {type: Number, default: 0}
 })
-
+// poll shema
 var Poll = new Schema({
     owner: String,
     question: String,
@@ -16,7 +15,5 @@ var Poll = new Schema({
 	options: [PollOptions]
 });
 
-//Account.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('Poll', Poll);
-//module.exports = mongoose.model('PollOptions', PollOptions);
