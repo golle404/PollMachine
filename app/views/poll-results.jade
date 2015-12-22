@@ -1,0 +1,14 @@
+extends ./layout.jade
+
+block content
+	.container
+		.row
+			.user-header
+				h3=poll.question
+				if voted
+					p You voted for option #{voted}
+				for o, i in poll.options
+					p=o.option
+					br
+					p= o.votes
+					br

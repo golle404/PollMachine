@@ -1,0 +1,11 @@
+extends ./layout.jade
+
+block content
+	.container
+		.row
+			.user-header
+				form(action="/verify", method="post")
+					label(for="key") Enter verification key
+					input(type="text", id="key", name="key", autofocus)
+					input(type="hidden", value="#{id}" name="id")
+					input(type="submit")

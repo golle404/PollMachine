@@ -1,0 +1,29 @@
+extends ./layout.jade
+
+block content
+	.container
+		.row
+			.new-pool
+				form.form-horizontal(action="/poll-submit", method="post")
+					.panel.panel-default
+						.panel-heading
+							h1 New Poll
+								input#poll-title.form-control(type='text', placeholder='Poll Question', name="question")
+						.panel-body
+							ul.list-group#option-list
+								li.list-group-item
+									input.pool-option.form-control(type='text', placeholder='Option 1', name="options")
+								li.list-group-item
+									input.pool-option.form-control(type='text', placeholder='Option 2', name="options")
+								li.list-group-item.new-option.template
+									input.poll-option.form-control(type='text', name="options")
+									.close-btn
+							.form-group
+								button.btn.btn-primary(type='button', id="add-option") Add Option
+						.panel-footer
+							.form-group
+								input(type="checkbox", name="private" id="private")
+								label(for="private") Private
+								input(type="text", name="key", id="key")
+								label(for="key") Private Key
+								button.btn.btn-primary(type='submit') Submit

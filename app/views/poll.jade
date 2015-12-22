@@ -1,0 +1,11 @@
+extends ./layout.jade
+
+block content
+	.container
+		.row
+			.user-header
+				h3=poll.question
+				for o, i in poll.options
+					a(href="/vote/" + poll.id + "/" + i)=o.option
+					br
+					p= o.votes

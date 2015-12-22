@@ -1,0 +1,22 @@
+extends ./layout.jade
+
+block content
+	.container
+		.row
+			.user-header
+				h1 Hello 
+				hr
+				if polls
+					.panel-group(role="tablist", aria-multiselectable="true", id="polls-accordion")
+						each p, i in polls
+							.panel.panel-info
+								.panel-heading(role="tab", id="poll-heading-#{i}")
+									h4.panel-title
+										a(role="button", data-toggle="collapse", data-parent="#polls-accordion", href="#collapse#{i}", aria-expanded="false", aria-controls="collapse#{i}")=p.question
+										a.pull-right(href="/poll/#{p._id}")
+											span.badge vote
+								.panel-collapse.collapse(id="collapse#{i}", role="tabpanel", aria-labelledby="poll-heading-#{i}")
+									.panel-body 
+										ul.list-group
+											each o in p.options
+												li.list-group-item= o.option

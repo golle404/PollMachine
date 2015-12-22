@@ -1,0 +1,16 @@
+extends ./layout.jade
+
+block content
+	.container
+		form.login-form(role='form', action="/login",method="post")
+			h1 Login
+			if info
+				.alert.alert-warning(role="alert")=info
+			.form-group
+				input.form-control(type='text', name="username", placeholder='Enter Username', autofocus)
+			.form-group
+				input.form-control(type='password', name="password", placeholder='Password')
+			.form-group
+				button.btn.btn-primary(type='submit') Login
+				| &nbsp;or 
+				a.btn.btn-default(href='/register') Register

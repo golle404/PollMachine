@@ -1,0 +1,22 @@
+{
+  "name": "auth-proj",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "golle404 <golle@inbox.com>"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6"
+  }
+}
