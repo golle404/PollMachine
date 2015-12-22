@@ -5,48 +5,69 @@ var pollCtrl = require('../controllers/poll-ctrl');
 
 var router = express.Router();
 
-router.get("/user", logCheck, function (req, res) {
-	res.redirect("/user/"+req.user.username);
-})
-router.get("/user/:username",logCheck, function(req, res){
-	return pollCtrl.getUserPolls(req, res);
-})
-router.get("/new-poll",logCheck, function(req, res){
-	res.render("new-poll", templateParams(req))
-})
-router.get("/remove-poll/:id",logCheck, function(req, res){
-	return pollCtrl.removePoll(req, res);
-})
-router.get("/poll/:id", function(req, res){
-	return pollCtrl.getPollById(req, res);
-})
-router.get("/poll-results/:id", function(req, res){
-	return pollCtrl.pollResults(req,res);
-})
-router.get("/verify/:id", function(req, res){
-	res.render("verify", {id: req.params.id});
-})
-router.post("/verify", pollCtrl.verifyKey);
+/////////  GET routes  ///////////
 
+// home route
+router.get(["/", "/home"], function (req, res) {
+		res.render("home", templateParams(req));
+	})
+	// user proxy route - used after login/register as proxy to 
+	// /user/:usename so we can get username
+router.get("/user", logCheck, function (req, res) {
+		res.redirect("/user/" + req.user.username);
+	})
+	// real user route - render user polls
+router.get("/user/:username", logCheck, pollCtrl.getUserPolls);
+// login view
+router.get("/login", function (req, res) {
+		res.render("login", templateParams(req));
+	})
+	// logout - return to login
+router.get("/logout", function (req, res) {
+		req.logout();
+		res.redirect('/login');
+	})
+	// register view
+router.get("/register", function (req, res) {
+		res.render("register", templateParams(req));
+	})
+	// login-fail route - return to login page with message 
+router.get("/login-fail", function (req, res) {
+		var tp = templateParams(req);
+		tp.info = "Sorry. Username and password do not match. Try again.";
+		return res.render('login', tp);
+	})
+	// list of public polls
+router.get("/public-polls", function (req, res) {
+		return pollCtrl.getPublicPolls(req, res);
+	})
+	// new poll form
+router.get("/new-poll", logCheck, function (req, res) {
+		res.render("new-poll", templateParams(req))
+	})
+	// remove poll
+router.get("/remove-poll/:id", logCheck, pollCtrl.removePoll);
+// poll view - for voting
+router.get("/poll/:id", pollCtrl.getPollById);
+// poll-results - just results
+router.get("/poll-results/:id", pollCtrl.pollResults);
+// private poll verification form 
+router.get("/verify/:id", function (req, res) {
+		res.render("verify", {
+			id: req.params.id
+		});
+	})
+	// voting for optionId on pollId
 router.get("/vote/:pollId/:optionId", pollCtrl.vote);
 
-router.get("/", function (req, res) {
-	res.render("home", templateParams(req));
-})
-router.get("/public-polls", function (req, res) {
-	return pollCtrl.getPublicPolls(req, res);
-})
-router.get("/login", function (req, res) {
-	res.render("login", templateParams(req));
-})
-router.get("/logout", function (req, res) {
-	req.logout();
-	res.redirect('/login');
-})
-router.get("/register", function (req, res) {
-	res.render("register", templateParams(req));
-})
+////////  POST routes  //////////
 
+// login using passport
+router.post('/login', passport.authenticate('local', {
+	successRedirect: '/user',
+	failureRedirect: '/login-fail'
+}));
+// register with passport
 router.post('/register', function (req, res) {
 	Account.register(new Account({
 			username: req.body.username
@@ -59,25 +80,22 @@ router.post('/register', function (req, res) {
 				return res.render('register', prm);
 			}
 			passport.authenticate('local')(req, res, function () {
-				res.redirect('/');
+				res.redirect('/user');
 			});
 		});
 });
 
-router.post('/login', passport.authenticate('local', {
-	successRedirect: '/user',
-	failureRedirect: '/login-fail'
-}), function (req, res, next) {
+// submit poll
+router.post("/poll-submit", logCheck, pollCtrl.addPoll);
 
-});
-router.post("/poll-submit", function(req, res){
-	return pollCtrl.addPoll(req, res);
-})
-router.get("/login-fail", function(req,res){
-	var prm = templateParams(req);
-	prm.info = "Sorry. Username and password do not match. Try again.";
-	return res.render('login', prm);
-})
+// private polls verification key
+router.post("/verify", pollCtrl.verifyKey);
+
+//////////// utility functions /////////
+
+// usual parameters for template 
+//	- active for link  active class
+// - username where needed
 function templateParams(req) {
 	var p = {};
 	if (req.user) {
@@ -86,7 +104,7 @@ function templateParams(req) {
 	p.active = req.route.path;
 	return p;
 }
-
+// middleware check if user is loged in
 function logCheck(req, res, next) {
 	if (req.user) {
 		next();
@@ -95,4 +113,5 @@ function logCheck(req, res, next) {
 	}
 }
 
+// export router as module
 module.exports = router;
