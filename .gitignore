@@ -37,4 +37,4 @@ node_modules
 data
 
 # oauth ids
-oauth.js
+app/oauth.js

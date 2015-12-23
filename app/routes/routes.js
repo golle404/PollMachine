@@ -98,17 +98,37 @@ router.post("/poll-submit", u.logCheck, pollCtrl.addPoll);
 // private polls verification key
 router.post("/verify", pollCtrl.verifyKey);
 
+///////  oAuth routes  ///////////////////
 
+// github
+router.get('/auth/github', passport.authenticate('github', {
+	scope: ['user:email']
+}), function (req, res) {});
 
-
-router.get('/auth/github',
-  passport.authenticate('github'),
-  function(req, res){});
 router.get('/auth/github/callback',
-  passport.authenticate('github', { failureRedirect: '/' }),
-  function(req, res) {
-    res.redirect('/user');
-  });
+	passport.authenticate('github', {
+		failureRedirect: '/login-fail'
+	}),
+	function (req, res) {
+		res.redirect('/user');
+	});
+
+// twitter
+router.get('/auth/twitter', passport.authenticate('twitter'), function (req, res) {});
+
+router.get('/auth/twitter/callback',
+	passport.authenticate('twitter', {
+		failureRedirect: '/login-fail'
+	}),
+	function (req, res) {
+		res.redirect('/user');
+	});
+
+
+
+
+
+
 
 // export router as module
 module.exports = router;

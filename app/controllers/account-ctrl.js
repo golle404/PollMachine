@@ -10,7 +10,7 @@ module.exports.registerAccount = function (req, res) {
 		function (err, account) {
 			if (err) {
 				// if unsucessful return to registration-fail view
-				res.redirect("/register");
+				res.redirect("/register-fail");
 			}
 		//if succesfull authenticate and redirect to user 
 			passport.authenticate('local')(req, res, function () {
