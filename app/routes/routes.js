@@ -1,4 +1,5 @@
 var express = require('express');
+var passport = require("passport");
 
 var pollCtrl = require('../controllers/poll-ctrl');
 var accountCtrl = require('../controllers/account-ctrl');
@@ -97,27 +98,17 @@ router.post("/poll-submit", u.logCheck, pollCtrl.addPoll);
 // private polls verification key
 router.post("/verify", pollCtrl.verifyKey);
 
-//////////// utility functions /////////
-/*
-// usual parameters for template 
-//	- active for link  active class
-// - username where needed
-function templateParams(req) {
-	var p = {};
-	if (req.user) {
-		p.username = req.user.username;
-	}
-	p.active = req.route.path;
-	return p;
-}
-// middleware check if user is loged in
-function logCheck(req, res, next) {
-	if (req.user) {
-		next();
-	} else {
-		res.redirect("/");
-	}
-}*/
+
+
+
+router.get('/auth/github',
+  passport.authenticate('github'),
+  function(req, res){});
+router.get('/auth/github/callback',
+  passport.authenticate('github', { failureRedirect: '/' }),
+  function(req, res) {
+    res.redirect('/user');
+  });
 
 // export router as module
 module.exports = router;

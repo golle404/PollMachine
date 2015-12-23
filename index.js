@@ -8,6 +8,10 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var session = require("express-session");
 var LocalStrategy = require('passport-local').Strategy;
+var GithubStrategy = require('passport-github2').Strategy;
+var config = require('./oauth.js');
+
+
 var routes = require('./app/routes/routes');
 var less = require("less-middleware");
 
@@ -47,6 +51,19 @@ var Account = require('./app/models/account');
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
+
+passport.use(new GithubStrategy({
+  clientID: config.github.clientID,
+  clientSecret: config.github.clientSecret,
+  callbackURL: config.github.callbackURL
+},
+function(accessToken, refreshToken, profile, done) {
+  process.nextTick(function () {
+    return done(null, profile);
+  });
+}
+));
+
 
 mongoose.connect('mongodb://localhost/auth-app');
 

@@ -35,3 +35,6 @@ node_modules
 
 # Mongose database
 data
+
+# oauth ids
+oauth.js
