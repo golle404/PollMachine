@@ -1,5 +1,4 @@
 var Poll = require("../models/poll.js");
-var u = require('../utilities/utilities');
 
 
 // create new poll
@@ -25,7 +24,7 @@ module.exports.addPoll = function (req, res) {
 	});
 	// save entry and redirect to user view
 	entry.save(function (err, data) {
-		u.handle(err);
+		handle(err);
 		res.redirect("/user/" + req.user.username)
 	});
 }
@@ -33,7 +32,7 @@ module.exports.addPoll = function (req, res) {
 //delete poll - redirect to user view
 module.exports.removePoll = function (req, res) {
 	Poll.findByIdAndRemove(req.params.id, function (err, data) {
-		u.handle(err);
+		handle(err);
 		res.redirect("/user/" + req.user.username);
 	});
 
@@ -41,8 +40,8 @@ module.exports.removePoll = function (req, res) {
 
 // user polls - for user view
 module.exports.getUserPolls = function (req, res) {
-	// param object
-	var tp = u.templateParams(req);
+	// template data
+	var templateData = {}
 	// find query
 	var query = Poll.find();
 	// query condition
@@ -51,14 +50,14 @@ module.exports.getUserPolls = function (req, res) {
 	});
 	// execute query
 	query.exec(function (err, results) {
-		u.handle(err)
+		handle(err)
 			// add results to parameter object
 			// if not empty
 		if (results.length != 0) {
-			tp.polls = results;
+			templateData.polls = results;
 		}
 		// render user view with parameters
-		res.render("user", tp);
+		res.render("user", templateData);
 	})
 }
 
@@ -68,21 +67,21 @@ module.exports.getPollById = function (req, res) {
 	if (req.cookies["poll-voted-" + req.params.id]) {
 		res.redirect("/poll-results/" + req.params.id);
 	} else {
-		// param object
-		var tp = u.templateParams(req);
+		// template data
+		var templateData = {};
 		// find poll
 		pollById(req.params.id, function (data) {
 			// if pool is public render view with data
 			if (data.private === "off") {
-				tp.poll = data;
-				res.render("poll", tp);
+				templateData.poll = data;
+				res.render("poll", templateData);
 			} else {
 				// if poll is private check if user is verified
 				// private key stored in cookie
 				if (req.cookies["poll-key-" + req.params.id] === data.privateKey) {
 					// if verified show poll
-					tp.poll = data;
-					res.render("poll", tp);
+					templateData.poll = data;
+					res.render("poll", templateData);
 				} else {
 					// if not verified redirect to verify form
 					res.redirect("/verify/" + req.params.id);
@@ -95,8 +94,6 @@ module.exports.getPollById = function (req, res) {
 // verify key for private poll
 // data from verify form - stored in req.body
 module.exports.verifyKey = function (req, res) {
-	// param object
-	var tp = u.templateParams(req);
 	// find poll by id
 	pollById(req.body.id, function (data) {
 		// if keys match
@@ -113,8 +110,8 @@ module.exports.verifyKey = function (req, res) {
 
 // list of public polls
 module.exports.getPublicPolls = function (req, res) {
-	// param object
-	var tp = u.templateParams(req);
+	// template data object
+	var templateData = {}
 	// model query
 	var query = Poll.find();
 	// query condition
@@ -123,13 +120,13 @@ module.exports.getPublicPolls = function (req, res) {
 	});
 	// run query
 	query.exec(function (err, results) {
-		u.handle(err);
-		// add results to param object if any
+		handle(err);
+		// add results to templateData object if any
 		if (results.length != 0) {
-			tp.polls = results;
+			templateData.polls = results;
 		}
-		// render public-polls view with params
-		res.render("public-polls", tp);
+		// render public-polls view with templateDatas
+		res.render("public-polls", templateData);
 	})
 }
 
@@ -149,7 +146,7 @@ module.exports.vote = function (req, res) {
 		update.$inc["options." + req.params.optionId + ".votes"] = 1;
 		// find pool and update
 		Poll.findByIdAndUpdate(req.params.pollId, update, function (err, data) {
-			u.handle(err);
+			handle(err);
 			// set cookie with poll id in name and voted option as value
 			// we can use cookie to pervetn user from multiple voting
 			// but also to show what option did thay voted on poll-result view
@@ -163,16 +160,16 @@ module.exports.vote = function (req, res) {
 // poll results - just results with no option to vote
 module.exports.pollResults = function (req, res) {
 	// param object
-	var tp = u.templateParams(req);
+	var templateData = {}
 	// check cookie with poll id in name - if exists
 	// user is already voted and we can show them their choise
 	// store value in param object
 	if (req.cookies["poll-voted-" + req.params.id]) {
-		tp.voted = req.cookies["poll-voted-" + req.params.id];
+		templateData.voted = req.cookies["poll-voted-" + req.params.id];
 	}
 	pollById(req.params.id, function(data){
-		tp.poll = data;
-		res.render("poll-results", tp);
+		templateData.poll = data;
+		res.render("poll-results", templateData);
 	})
 }
 
@@ -181,7 +178,14 @@ module.exports.pollResults = function (req, res) {
 // get poll by id
 function pollById(id, callback) {
 	Poll.findById(id, function (err, data) {
-		u.handle(err);
+		handle(err);
 		callback(data);
 	});
+}
+
+// handle error shortcut
+var handle = function(err) {
+	if (err) {
+		throw err;
+	}
 }

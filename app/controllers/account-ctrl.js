@@ -26,3 +26,12 @@ module.exports.authenticateAccount = function (req, res) {
 		failureRedirect: '/login-fail'
 	})
 }
+
+// check is user loged in - middleware
+module.exports.logCheck = function(req, res, next){
+	if (req.user) {
+		next();
+	} else {
+		res.redirect("/login");
+	}
+}

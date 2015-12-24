@@ -4,8 +4,8 @@ block content
 	.container
 		form.login-form(role='form', action="/login",method="post")
 			h1 Login
-			if info
-				.alert.alert-warning(role="alert")=info
+			if layout.info
+				.alert.alert-warning(role="alert")= layout.info
 			.form-group
 				input.form-control(type='text', name="username", placeholder='Enter Username', autofocus)
 			.form-group

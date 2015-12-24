@@ -3,29 +3,35 @@ var passport = require("passport");
 
 var pollCtrl = require('../controllers/poll-ctrl');
 var accountCtrl = require('../controllers/account-ctrl');
-var u = require('../utilities/utilities');
+var layout = require('../controllers/layout-ctrl').layout;
 
 var router = express.Router();
 
 /////////  GET routes  ///////////
 
+
 // home route
-router.get(["/", "/home"], function (req, res) {
-	res.render("home", u.templateParams(req));
+router.get("/home", layout, function (req, res) {
+	//console.log("glob",req.glob);
+	res.render("home");
 })
 
-// user proxy route - used after login/register as proxy to 
-// /user/:usename so we can get username
-router.get("/user", u.logCheck, function (req, res) {
+// home redirect
+router.get("/", function (req, res) {
+		res.redirect("/home");
+	})
+	// user proxy route - used after login/register as proxy to 
+	// /user/:usename so we can get username
+router.get("/user", accountCtrl.logCheck, function (req, res) {
 	res.redirect("/user/" + req.user.username);
 })
 
 // real user route - render user polls
-router.get("/user/:username", u.logCheck, pollCtrl.getUserPolls);
+router.get("/user/:username", layout, accountCtrl.logCheck, pollCtrl.getUserPolls);
 
 // login view
-router.get("/login", function (req, res) {
-	res.render("login", u.templateParams(req));
+router.get("/login", layout, function (req, res) {
+	res.render("login");
 })
 
 // logout - return to login
@@ -35,45 +41,41 @@ router.get("/logout", function (req, res) {
 })
 
 // register view
-router.get("/register", function (req, res) {
-	res.render("register", u.templateParams(req));
+router.get("/register", layout, function (req, res) {
+	res.render("register");
 })
 
 // login-fail route - return to login page with message 
-router.get("/login-fail", function (req, res) {
-	var tp = u.templateParams(req);
-	tp.info = "Sorry. Username and password do not match. Try again.";
-	return res.render('login', tp);
+router.get("/login-fail", layout, function (req, res) {
+	return res.render('login');
 })
 
 // login-fail route - return to login page with message 
-router.get("/register-fail", function (req, res) {
-	var tp = u.templateParams(req);
-	tp.info = "Sorry. That username already exists. Try again.";
-	return res.render('register', tp);
+router.get("/register-fail", layout, function (req, res) {
+	return res.render('register');
 })
 
 // list of public polls
-router.get("/public-polls", function (req, res) {
+router.get("/public-polls",layout, function (req, res) {
 	return pollCtrl.getPublicPolls(req, res);
 })
 
 // new poll form
-router.get("/new-poll", u.logCheck, function (req, res) {
-	res.render("new-poll", u.templateParams(req))
+router.get("/new-poll", layout, accountCtrl.logCheck, function (req, res) {
+	res.render("new-poll")
 })
 
 // remove poll
-router.get("/remove-poll/:id", u.logCheck, pollCtrl.removePoll);
+router.get("/remove-poll/:id", accountCtrl.logCheck, pollCtrl.removePoll);
 
 // poll view - for voting
-router.get("/poll/:id", pollCtrl.getPollById);
+router.get("/poll/:id",layout, pollCtrl.getPollById);
 
 // poll-results - just results
-router.get("/poll-results/:id", pollCtrl.pollResults);
+router.get("/poll-results/:id",layout, pollCtrl.pollResults);
 
 // private poll verification form 
-router.get("/verify/:id", function (req, res) {
+router.get("/verify/:id", layout, function (req, res) {
 	res.render("verify", {
 		id: req.params.id
 	});
@@ -93,7 +95,7 @@ router.post('/register', function (req, res) {
 });
 
 // submit poll
-router.post("/poll-submit", u.logCheck, pollCtrl.addPoll);
+router.post("/poll-submit", accountCtrl.logCheck, pollCtrl.addPoll);
 
 // private polls verification key
 router.post("/verify", pollCtrl.verifyKey);
@@ -123,12 +125,6 @@ router.get('/auth/twitter/callback',
 	function (req, res) {
 		res.redirect('/user');
 	});
-
-
-
-
-
-
 
 // export router as module
 module.exports = router;

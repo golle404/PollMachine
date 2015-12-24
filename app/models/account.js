@@ -8,7 +8,7 @@ var Account = new Schema({
     password: String
 });
 
-// passport plugin - local-mongoose strategy
+// passport plugin - local-mongoose
 Account.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('Account', Account);
