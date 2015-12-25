@@ -42,18 +42,26 @@ module.exports.removePoll = function (req, res) {
 module.exports.getUserPolls = function (req, res) {
 	// template data
 	var templateData = {}
-	// find query
+		// find query
 	var query = Poll.find();
 	// query condition
 	query.where({
 		owner: req.user.username
 	});
 	// execute query
-	query.exec(function (err, results) {
+	query.exec(function (err, data) {
 		handle(err)
 			// add results to parameter object
 			// if not empty
-		if (results.length != 0) {
+		if (data.length != 0) {
+			var results = data.map(function (v) {
+				v.totalVotes = v.options.reduce(function (p, c) {
+					return p += c.votes;
+				}, 0)
+
+				v.createdBefore = createdBefore(v.created);
+				return v;
+			})
 			templateData.polls = results;
 		}
 		// render user view with parameters
@@ -112,7 +120,7 @@ module.exports.verifyKey = function (req, res) {
 module.exports.getPublicPolls = function (req, res) {
 	// template data object
 	var templateData = {}
-	// model query
+		// model query
 	var query = Poll.find();
 	// query condition
 	query.where({
@@ -161,13 +169,13 @@ module.exports.vote = function (req, res) {
 module.exports.pollResults = function (req, res) {
 	// param object
 	var templateData = {}
-	// check cookie with poll id in name - if exists
-	// user is already voted and we can show them their choise
-	// store value in param object
+		// check cookie with poll id in name - if exists
+		// user is already voted and we can show them their choise
+		// store value in param object
 	if (req.cookies["poll-voted-" + req.params.id]) {
 		templateData.voted = req.cookies["poll-voted-" + req.params.id];
 	}
-	pollById(req.params.id, function(data){
+	pollById(req.params.id, function (data) {
 		templateData.poll = data;
 		res.render("poll-results", templateData);
 	})
@@ -184,8 +192,38 @@ function pollById(id, callback) {
 }
 
 // handle error shortcut
-var handle = function(err) {
+var handle = function (err) {
 	if (err) {
 		throw err;
 	}
+}
+
+// format date time
+function createdBefore(date) {
+	var now = new Date();
+	var then = new Date(date);
+	var diff = (now - then) / 1000;
+
+	if (diff < 1) {
+		return "1 second";
+	}
+	var unitSeconds = [
+    [31556926, 'years'],
+    [2629744, 'months'],
+    [86400, 'days'],
+    [3600, 'hours'],
+    [60, 'minutes'],
+    [1, 'seconds']
+  ];
+	var result = unitSeconds.reduce(function (p, c) {
+		var dv = Math.floor(diff / c[0]);
+		if (dv > 0) {
+			if (dv === 1) {
+				c[1] = c[1].slice(0, -1);
+			}
+			p.push([dv, c[1]]);
+		}
+		return p;
+	}, [])[0].join(" ");
+	return result;
 }

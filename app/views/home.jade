@@ -2,14 +2,10 @@ extends ./layout.jade
 
 block content
 	.container
-		.jumbotron
+		.home-block.jumbotron
 			h1 Poll-Machine
 			p  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam quia nihil necessitatibus odit earum aspernatur eos aliquid, odio commodi nobis maiores vel provident obcaecati, amet velit corporis placeat alias perspiciatis!
-			.container
-				.row
-					.col-md-2.col-md-offset-3
-						a.btn.btn-primary(href='/login', role='button') Login
-					.col-md-2
-						a.btn.btn-primary(href='/register', role='button') Register
-					.col-md-2
-						a.btn.btn-primary(href='/', role='button') Public Polls
+			p
+				a.btn.btn-primary(href='/login') Login 
+				a.btn.btn-primary(href='/register') Register 
+				a.btn.btn-primary(href='/public-polls') Public Polls

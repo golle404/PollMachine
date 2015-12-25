@@ -1,9 +1,12 @@
-Poll Machine - freeCodeCamp project
+#Poll Machine - freeCodeCamp project
 
 App where user can create multiple private or public polls,
 manage them and view results.
 
+Test page - https://poll-machine-golle404.c9users.io/home
+
 This project is build as part of freeCodeCamp curiculum.
+
 Frameworks and libraries used:
 
 - node.js

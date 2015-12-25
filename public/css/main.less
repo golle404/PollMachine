@@ -1,6 +1,171 @@
-@import "../lib/bootstrap/less/bootstrap.less";
+// Font Awesome
+@import "../lib/font-awesome/less/font-awesome.less";
+// Core variables and mixins
+@import "../lib/bootstrap/less/variables.less";
+@import "../lib/bootstrap/less/mixins.less";
 
-.login-form{
+// Reset and dependencies
+@import "../lib/bootstrap/less/normalize.less";
+@import "../lib/bootstrap/less/print.less";
+@import "../lib/bootstrap/less/glyphicons.less";
+
+// Core CSS
+@import "../lib/bootstrap/less/scaffolding.less";
+@import "../lib/bootstrap/less/type.less";
+@import "../lib/bootstrap/less/code.less";
+@import "../lib/bootstrap/less/grid.less";
+@import "../lib/bootstrap/less/tables.less";
+@import "../lib/bootstrap/less/forms.less";
+@import "../lib/bootstrap/less/buttons.less";
+
+@import "../lib/bootstrap/less/component-animations.less";
+@import "../lib/bootstrap/less/dropdowns.less";
+@import "../lib/bootstrap/less/button-groups.less";
+@import "../lib/bootstrap/less/input-groups.less";
+@import "../lib/bootstrap/less/navs.less";
+@import "../lib/bootstrap/less/navbar.less";
+@import "../lib/bootstrap/less/jumbotron.less";
+@import "../lib/bootstrap/less/list-group.less";
+@import "../lib/bootstrap/less/panels.less";
+@import "../lib/bootstrap/less/alerts.less";
+@import "../lib/bootstrap/less/labels.less";
+@import "../lib/bootstrap/less/badges.less";
+// Utility classes
+@import "../lib/bootstrap/less/utilities.less";
+@import "../lib/bootstrap/less/responsive-utilities.less";
+
+// my mixins
+@import "custom-mixins.less";
+
+
+.home-block{
+	text-align: center;
+	.btn{
+		margin: 2px;
+	}
+}
+.panel-login{
+	.make-sm-column(6);
+	.make-sm-column-offset(3);
+	.make-xs-column(10);
+	.make-xs-column-offset(1);
+	.panel-title{
+		text-align: center;
+		font-size: 20px;
+		a{
+			font-size: 16px;
+			color: red;
+		}
+		span{
+			color: grey;
+			font-size: 16px;
+		}
+	}
+	.btn{
+		width: 100%;
+		margin: 8px 0;
+	}
+	.form-login{
+		padding: 10px;
+		border-right: 1px solid #ddd;
+		input{
+			margin-bottom: 8px;
+		}
+	}
+	.oauth-login{
+		p{
+			text-align: right;
+		}
+	}
+}
+.user-block{
+	.make-sm-column(8);
+	.make-sm-column-offset(2);
+	.make-xs-column(10);
+	.make-xs-column-offset(1);
+	//border: 1px solid;
+	.user-header{
+		.make-sm-column(12);
+		text-align: center;
+		span{
+			color: #888;
+		}
+	}
+}
+.poll-list{
+	margin-top: 10px;
+	.list-group-item{
+		padding: 0;
+    	margin-bottom: 8px;
+	}
+	.question{
+		font-size: 26px;
+		margin: 0;
+		padding: 6px 12px;
+		a{
+			color: black;
+			&:hover{
+				color: @brand-primary;
+			}
+		}
+	}
+	.button-group{
+		margin: 0;
+		padding: 8px;
+		background-color: #eee;
+		font-size: 14px;
+		margin: 0;
+		display: inline-table;
+		width: 100%;
+		li{
+			float: left;
+			list-style: none;
+			padding: 0 4px;
+		}
+		.label{
+			margin: 2px;
+		}
+		.info{
+			font-size: 12px;
+			margin: 2px;
+			color: #888;
+		}
+	}
+}
+//my vars
+/*@content-bg-color: #009688;
+@content-text-color: #fff;
+@accent-color: #ab47bc;
+@accent-darker: #8e24aa;
+
+.navbar-default {
+    background-color: @accent-color;
+	border-color: @accent-darker;
+    color: @content-text-color;
+}
+
+.home-block{
+	text-align: center;
+	background-color: @content-bg-color;
+	color: @content-text-color;
+	padding: 20px 40px;
+	.boxShadow(2);
+	p{
+		padding: 8px;
+	}
+	.btn{
+		margin: 2px;
+	}
+}
+
+.btn.btn-primary{
+	background: @accent-color;
+	border-color: @accent-darker;
+}*/
+//@import "../lib/bootstrap/less/bootstrap.less";
+
+
+/*.login-form{
 	max-width: 400px;
 	margin: auto;
 }
@@ -43,4 +208,4 @@
 	&.template{
 		display: none;
 	}
-}
+}*/

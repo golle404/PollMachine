@@ -3,27 +3,45 @@ extends ./layout.jade
 block content
 	.container
 		.row
-			.user-header
-				h1 Hello 
-					span=username
-				if !polls
-					p It seams you dont have any polls created.
-				else
-					p Check results of your polls or
-				a.btn.btn-primary(type='button' href="/new-poll/") Create new poll
-				hr
+			.user-block
+				.row
+					.user-header
+						h1 Hello 
+							span=layout.username
+						if !polls
+							p It seams you dont have any polls created.
+						else
+							p Check results of your polls or
+						a.btn.btn-primary(type='button' href="/new-poll/") Create new poll
 				if polls
-					.panel-group(role="tablist", aria-multiselectable="true", id="polls-accordion")
-						each p, i in polls
-							.panel(class = p.private === "off" ? 'panel-success' : 'panel-info')
-								.panel-heading(role="tab", id="poll-heading-#{i}")
-									h4.panel-title
-										span.badge.pull-left=p.privateKey
-										a(role="button", data-toggle="collapse", data-parent="#polls-accordion", href="#collapse#{i}", aria-expanded="false", aria-controls="collapse#{i}")=p.question
-										a(href="/remove-poll/#{p._id}")
-											span.badge.pull-right delete poll
-								.panel-collapse.collapse(id="collapse#{i}", role="tabpanel", aria-labelledby="poll-heading-#{i}")
-									.panel-body 
-										ul.list-group
-											each o in p.options
-												li.list-group-item= o.option
+					.row
+						.poll-list
+							ul.list-group
+								for poll in polls
+									li.list-group-item
+										p.question
+											a(href="/poll/#{poll.id}")=poll.question
+											a.btn.btn-default.btn-sm.pull-right
+												i.fa.fa-twitter
+												|  tweet
+										ul.button-group
+											if poll.private === "off"
+												li
+													span.label.label-info public
+											else
+												li
+													span.label.label-warning private 
+													span.info key: 
+													span.label.label-warning #{poll.privateKey}
+											li
+												span.info= poll.createdBefore  
+													|   ago
+											li 
+												span.info total votes
+												span.badge= poll.totalVotes
+											li
+												a.btn.btn-primary.btn-xs(href="/poll-results/#{poll.id}") results
+											li
+												a.btn.btn-primary.btn-xs(href="/poll/#{poll.id}") permalink
+											li.pull-right
+												a.btn.btn-danger.btn-xs(href="/remove-poll/#{poll.id}") delete

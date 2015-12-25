@@ -10,6 +10,7 @@ var PollOptions = new Schema({
 var Poll = new Schema({
     owner: String,
     question: String,
+	created: {type: Date, default: Date.now },
 	private: {type: String, default: "off"},
 	privateKey: {type:String, default: ""},
 	options: [PollOptions]
