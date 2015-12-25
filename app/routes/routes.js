@@ -81,10 +81,11 @@ router.get("/verify/:id", layout, function (req, res) {
 	});
 })
 
-// voting for optionId on pollId
-router.get("/vote/:pollId/:optionId", pollCtrl.vote);
 
 ////////  POST routes  //////////
+
+// voting 
+router.post("/vote", pollCtrl.vote);
 
 // login using account controller
 router.post('/login', accountCtrl.authenticateAccount());

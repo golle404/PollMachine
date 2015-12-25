@@ -155,25 +155,28 @@ module.exports.vote = function (req, res) {
 	if (req.cookies["poll-voted-" + req.params.pollId]) {
 		res.redirect("/poll-results/" + req.params.pollId);
 	} else {
-		//if user has not votet yet
+		//if user has not voted yet
 		// update object
 		var update = {
 			$inc: {}
 		};
-		update.$inc["options." + req.params.optionId + ".votes"] = 1;
+		update.$inc["options." + req.body.optionId + ".votes"] = 1;
 		// find pool and update
-		Poll.findByIdAndUpdate(req.params.pollId, update, function (err, data) {
+		Poll.findByIdAndUpdate(req.body.pollId, update, function (err, data) {
 			handle(err);
 			// set cookie with poll id in name and voted option as value
 			// we can use cookie to pervetn user from multiple voting
 			// but also to show what option did thay voted on poll-result view
-			res.cookie("poll-voted-" + req.params.pollId, req.params.optionId);
+			res.cookie("poll-voted-" + req.body.pollId, req.body.optionId);
 			// redirect to poll-result view
-			res.redirect("/poll-results/" + req.params.pollId);
+			res.redirect("/poll-results/" + req.body.pollId);
 		})
 	}
 }
-
+module.exports.vote2 = function(req, res){
+	console.log(req.body);
+	res.redirect("/public-polls");
+}
 // poll results - just results with no option to vote
 module.exports.pollResults = function (req, res) {
 	// param object

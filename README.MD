@@ -16,7 +16,7 @@ Frameworks and libraries used:
 - bootstrap
 - jQUery
 
-current version 0.3.1 
+current version 0.4.1 
 
 TODO
 
