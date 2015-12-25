@@ -3,20 +3,29 @@ extends ./layout.jade
 block content
 	.container
 		.row
-			.user-header
-				h1 Hello 
-				hr
+			.public-polls
 				if polls
-					.panel-group(role="tablist", aria-multiselectable="true", id="polls-accordion")
-						each p, i in polls
-							.panel.panel-info
-								.panel-heading(role="tab", id="poll-heading-#{i}")
-									h4.panel-title
-										a(role="button", data-toggle="collapse", data-parent="#polls-accordion", href="#collapse#{i}", aria-expanded="false", aria-controls="collapse#{i}")=p.question
-										a.pull-right(href="/poll/#{p._id}")
-											span.badge vote
-								.panel-collapse.collapse(id="collapse#{i}", role="tabpanel", aria-labelledby="poll-heading-#{i}")
-									.panel-body 
-										ul.list-group
-											each o in p.options
-												li.list-group-item= o.option
+					h3 List of public polls you can vote to
+					.row
+						.poll-list
+							ul.list-group
+								for poll in polls
+									li.list-group-item
+										p.question
+											a(href="/poll/#{poll.id}")=poll.question
+											a.btn.btn-default.btn-sm.pull-right(href="#{poll.tweet}", target="_blank")
+												i.fa.fa-twitter
+												|  tweet
+										ul.button-group
+											li
+												span.info(title="#{poll.created}")= poll.createdBefore  
+													|   ago
+											li 
+												span.info total votes
+												span.badge= poll.totalVotes
+											li
+												a.btn.btn-primary.btn-xs(href="/poll-results/#{poll.id}") results
+											li
+												a.btn.btn-primary.btn-xs(href="/poll/#{poll.id}") permalink
+				else
+					h3 Sorry, there are no public polls at the moment.

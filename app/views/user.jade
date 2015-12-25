@@ -21,7 +21,7 @@ block content
 									li.list-group-item
 										p.question
 											a(href="/poll/#{poll.id}")=poll.question
-											a.btn.btn-default.btn-sm.pull-right
+											a.btn.btn-default.btn-sm.pull-right(href="#{poll.tweet}", target="_blank")
 												i.fa.fa-twitter
 												|  tweet
 										ul.button-group
@@ -34,7 +34,7 @@ block content
 													span.info key: 
 													span.label.label-warning #{poll.privateKey}
 											li
-												span.info= poll.createdBefore  
+												span.info(title="#{poll.created}")= poll.createdBefore  
 													|   ago
 											li 
 												span.info total votes

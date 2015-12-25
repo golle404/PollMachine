@@ -40,6 +40,7 @@ module.exports.removePoll = function (req, res) {
 
 // user polls - for user view
 module.exports.getUserPolls = function (req, res) {
+	console.log(req.protocol, req.originalUrl, req.get("host"));
 	// template data
 	var templateData = {}
 		// find query
@@ -54,14 +55,21 @@ module.exports.getUserPolls = function (req, res) {
 			// add results to parameter object
 			// if not empty
 		if (data.length != 0) {
-			var results = data.map(function (v) {
+			var results = formatPolls(data, req);
+			/*var results = data.map(function (v) {
+				// calculate total votes
 				v.totalVotes = v.options.reduce(function (p, c) {
-					return p += c.votes;
-				}, 0)
-
+						return p += c.votes;
+					}, 0)
+					// created before
 				v.createdBefore = createdBefore(v.created);
+				// tweet link
+				v.tweet = "https://twitter.com/intent/tweet?text=";
+				v.tweet += v.question;
+				v.tweet += " -  vote here - ";
+				v.tweet += req.protocol + "://" + req.get("host") + "/poll/" + v.id;
 				return v;
-			})
+			})*/
 			templateData.polls = results;
 		}
 		// render user view with parameters
@@ -127,10 +135,11 @@ module.exports.getPublicPolls = function (req, res) {
 		private: "off"
 	});
 	// run query
-	query.exec(function (err, results) {
+	query.exec(function (err, data) {
 		handle(err);
-		// add results to templateData object if any
-		if (results.length != 0) {
+		// add data to templateData object if any
+		if (data.length != 0) {
+			var results = formatPolls(data, req);
 			templateData.polls = results;
 		}
 		// render public-polls view with templateDatas
@@ -226,4 +235,22 @@ function createdBefore(date) {
 		return p;
 	}, [])[0].join(" ");
 	return result;
+}
+
+//format poll list
+function formatPolls(polls, req) {
+	return polls.map(function (v) {
+		// calculate total votes
+		v.totalVotes = v.options.reduce(function (p, c) {
+				return p += c.votes;
+			}, 0)
+			// created before
+		v.createdBefore = createdBefore(v.created);
+		// tweet link
+		v.tweet = "https://twitter.com/intent/tweet?text=";
+		v.tweet += v.question;
+		v.tweet += " -  vote here - ";
+		v.tweet += req.protocol + "://" + req.get("host") + "/poll/" + v.id;
+		return v;
+	})
 }
