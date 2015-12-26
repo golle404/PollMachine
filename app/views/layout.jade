@@ -47,4 +47,6 @@ head
 	block content
 	script(src="/lib/jquery/dist/jquery.min.js")
 	script(src="/lib/bootstrap/dist/js/bootstrap.min.js")
-	script(src="/js/main.js")
+	case layout.active
+		when "/new-poll"
+			script(src="/js/new-poll.js")

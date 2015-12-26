@@ -10,10 +10,9 @@ block content
 					ul.list-group
 						for option, i in poll.options
 							li.list-group-item
-								.input-group
-									span.input-group-addon
-										input(type='radio', id="option#{i}", name="optionId", value="#{i}")    
-									label.form-control(for="option#{i}")= option.option
+								input.option-input(type='radio', id="option#{i}", name="optionId", value="#{i}", required)
+								label.option-label(for="option#{i}")= option.option
+									i.fa.fa-check.pull-right
 					.panel-footer
 						input(type="hidden", id="#{poll.id}",name="pollId", value="#{poll.id}")
 						button.btn.btn-primary(type='submit') Vote

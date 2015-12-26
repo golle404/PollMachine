@@ -218,7 +218,94 @@
 			padding: 6px 50px;
 		}
 	}
+	.list-group-item{
+		padding: 2px;
+		list-style: none;
+	}
+	.option-label{
+		width: 100%;
+		height: 100%;
+		padding: 8px 16px;
+		margin: 0;
+		cursor: pointer;
+		font-size: 20px;
+		&:hover{
+			background-color: @brand-success;
+			color: #fff;
+		}
+		.fa{
+			display: none;
+		}
+	}
+	.option-input{
+		display: none;
+	}
+	.option-input:checked ~ .option-label{
+		background-color: @brand-success;
+		color: #fff;
+		.fa{
+			display: inline-block;
+		}
+	}
 }
+.poll-results{
+	.make-sm-column(8);
+	.make-sm-column-offset(2);
+	.make-xs-column(10);
+	.make-xs-column-offset(1);
+	.results-header{
+		text-align: center;
+	}
+	h3{
+		text-align: center;
+		font-size: 24px;
+		margin: 0;
+	}
+	.list-group-item{
+		display: list-item;
+		list-style: none;
+		padding: 2px;
+	}
+	.option{
+		width: 100%;
+		height: 100%;
+		padding: 8px 16px;
+		margin: 0;
+		font-size: 20px;
+		.votes{
+			padding: 0 12px;
+			font-size: 16px;
+			color: @gray-light;
+			font-style: oblique;
+			font-weight: bold;
+		}
+		&.selected{
+			background-color: @brand-success;
+			color: #fff;
+			.votes{
+				color: @gray-lighter
+			}
+		}
+	}
+	.graph-group{
+		.row{
+			margin: 2px;
+			padding: 2px;
+			border: 1px solid @brand-primary;
+		}
+		.bar{
+			.make-xs-column(6);
+			background-color: @brand-primary;
+			height: 30px;
+		}
+		.bar-label{
+			.make-xs-column(1);
+			font-size: 18px;
+			line-height: 30px;
+		}
+	}
+}
+
 //my vars
 /*@content-bg-color: #009688;
 @content-text-color: #fff;

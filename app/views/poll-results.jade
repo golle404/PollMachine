@@ -3,12 +3,26 @@ extends ./layout.jade
 block content
 	.container
 		.row
-			.user-header
-				h3=poll.question
-				if voted
-					p You voted for option #{voted}
-				for o, i in poll.options
-					p=o.option
-					br
-					p= o.votes
-					br
+			.poll-results
+				.results-header
+					h1 Poll results
+					p #{poll.totalVotes} votes in #{poll.createdBefore}
+					if voted
+						p You voted for option 
+							em #{poll.options[voted].option}
+				.panel.panel-default
+					.panel-heading
+						h3= poll.question
+					ul.list-group
+						for option, i in poll.options
+							li.list-group-item
+								.option(class = ( i == voted ? "selected" : "" ))= option.option
+									span.votes #{option.votes} votes - #{option.votePct}%
+					.panel-footer
+						h3 Poll graph
+						.graph-group
+							for option, i in poll.options
+								.row
+									.bar(style='width: #{option.votePct}%;')
+									.bar-label= option.option
+									

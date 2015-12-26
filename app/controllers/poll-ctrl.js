@@ -90,6 +90,7 @@ module.exports.getPollById = function (req, res) {
 			// if pool is public render view with data
 			if (data.private === "off") {
 				templateData.poll = data;
+				req.app.locals.layout.title = data.question;
 				res.render("poll", templateData);
 			} else {
 				// if poll is private check if user is verified
@@ -173,10 +174,7 @@ module.exports.vote = function (req, res) {
 		})
 	}
 }
-module.exports.vote2 = function(req, res){
-	console.log(req.body);
-	res.redirect("/public-polls");
-}
+
 // poll results - just results with no option to vote
 module.exports.pollResults = function (req, res) {
 	// param object
@@ -188,7 +186,8 @@ module.exports.pollResults = function (req, res) {
 		templateData.voted = req.cookies["poll-voted-" + req.params.id];
 	}
 	pollById(req.params.id, function (data) {
-		templateData.poll = data;
+		var poll = formatPolls([data], req)[0];
+		templateData.poll = poll;
 		res.render("poll-results", templateData);
 	})
 }
@@ -247,6 +246,10 @@ function formatPolls(polls, req) {
 		v.totalVotes = v.options.reduce(function (p, c) {
 				return p += c.votes;
 			}, 0)
+		v.options = v.options.map(function(o){
+			o.votePct = Math.round(100 * o.votes/v.totalVotes);
+			return o;
+		})
 			// created before
 		v.createdBefore = createdBefore(v.created);
 		// tweet link

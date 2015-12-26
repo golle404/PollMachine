@@ -13,7 +13,7 @@ module.exports.layout = function (req, res, next) {
 	// route path for active links
 	loc.active = req.route.path;
 	// page title
-	loc.title = " -" + formatTitle(req.route.path);
+	loc.title = " -" + formatTitle(req.originalUrl);
 	
 	// info for special cases 
 	if (req.route.path === "/login-fail") {
@@ -23,6 +23,7 @@ module.exports.layout = function (req, res, next) {
 		loc.info = "Sorry. That username already exists. Try again.";
 		loc.active = "/register";
 	}
+	
 	next();
 }
 
