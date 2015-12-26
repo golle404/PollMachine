@@ -1,4 +1,5 @@
 var Poll = require("../models/poll.js");
+var Account = require("../models/account.js");
 
 
 // create new poll
@@ -56,24 +57,13 @@ module.exports.getUserPolls = function (req, res) {
 			// if not empty
 		if (data.length != 0) {
 			var results = formatPolls(data, req);
-			/*var results = data.map(function (v) {
-				// calculate total votes
-				v.totalVotes = v.options.reduce(function (p, c) {
-						return p += c.votes;
-					}, 0)
-					// created before
-				v.createdBefore = createdBefore(v.created);
-				// tweet link
-				v.tweet = "https://twitter.com/intent/tweet?text=";
-				v.tweet += v.question;
-				v.tweet += " -  vote here - ";
-				v.tweet += req.protocol + "://" + req.get("host") + "/poll/" + v.id;
-				return v;
-			})*/
 			templateData.polls = results;
 		}
-		// render user view with parameters
-		res.render("user", templateData);
+		getUser(req.user.username, function (user) {
+			templateData.user = user;
+			// render user view with parameters
+			res.render("user", templateData);
+		})
 	})
 }
 
@@ -89,16 +79,25 @@ module.exports.getPollById = function (req, res) {
 		pollById(req.params.id, function (data) {
 			// if pool is public render view with data
 			if (data.private === "off") {
-				templateData.poll = data;
+				templateData.poll = formatPolls([data], req)[0];
 				req.app.locals.layout.title = data.question;
-				res.render("poll", templateData);
+				//get owner data
+				getUser(data.owner, function (user) {
+					templateData.user = user;
+					res.render("poll", templateData);
+				})
 			} else {
 				// if poll is private check if user is verified
 				// private key stored in cookie
 				if (req.cookies["poll-key-" + req.params.id] === data.privateKey) {
 					// if verified show poll
-					templateData.poll = data;
-					res.render("poll", templateData);
+					templateData.poll = formatPolls([data], req)[0];
+					//get owner data
+					getUser(data.owner, function (user) {
+						templateData.user = user;
+						res.render("poll", templateData);
+					})
+						//res.render("poll", templateData);
 				} else {
 					// if not verified redirect to verify form
 					res.redirect("/verify/" + req.params.id);
@@ -202,6 +201,16 @@ function pollById(id, callback) {
 	});
 }
 
+// get user data
+function getUser(name, callback) {
+	Account.findOne({
+		username: name
+	}, function (err, data) {
+		handle(err);
+		callback(data);
+	})
+}
+
 // handle error shortcut
 var handle = function (err) {
 	if (err) {
@@ -244,19 +253,23 @@ function formatPolls(polls, req) {
 	return polls.map(function (v) {
 		// calculate total votes
 		v.totalVotes = v.options.reduce(function (p, c) {
-				return p += c.votes;
-			}, 0)
-		v.options = v.options.map(function(o){
-			o.votePct = Math.round(100 * o.votes/v.totalVotes);
-			return o;
-		})
-			// created before
+			return p += c.votes;
+		}, 0)
+		v.options = v.options.map(function (o) {
+				o.votePct = Math.round(100 * o.votes / v.totalVotes);
+				return o;
+			})
+			//owner and login domain
+			//var ownerdom = v.owner.split("@");
+			//v.username = ownerdom[0];
+
+		// created before
 		v.createdBefore = createdBefore(v.created);
+		// links
+		v.permalink = req.app.locals.layout.baseUrl + "/poll/" + v.id;
+		v.resultlink = req.app.locals.layout.baseUrl + "/poll-results/" + v.id;
 		// tweet link
-		v.tweet = "https://twitter.com/intent/tweet?text=";
-		v.tweet += v.question;
-		v.tweet += " -  vote here - ";
-		v.tweet += req.protocol + "://" + req.get("host") + "/poll/" + v.id;
+		v.tweet = "https://twitter.com/intent/tweet?text=" + v.question;
 		return v;
 	})
 }

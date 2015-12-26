@@ -54,7 +54,8 @@ app.locals.layout = {
 	username: null,
 	active: null,
 	title: null,
-	info: null
+	info: null,
+	baseUrl: "http://localhost:3000"
 };
 
 // router

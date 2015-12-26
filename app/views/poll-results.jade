@@ -3,26 +3,39 @@ extends ./layout.jade
 block content
 	.container
 		.row
-			.poll-results
-				.results-header
-					h1 Poll results
-					p #{poll.totalVotes} votes in #{poll.createdBefore}
-					if voted
-						p You voted for option 
-							em #{poll.options[voted].option}
-				.panel.panel-default
-					.panel-heading
-						h3= poll.question
-					ul.list-group
-						for option, i in poll.options
-							li.list-group-item
-								.option(class = ( i == voted ? "selected" : "" ))= option.option
-									span.votes #{option.votes} votes - #{option.votePct}%
-					.panel-footer
-						h3 Poll graph
-						.graph-group
-							for option, i in poll.options
-								.row
-									.bar(style='width: #{option.votePct}%;')
-									.bar-label= option.option
-									
+			.content
+				.row
+					.content-header
+						h1 Poll results
+						if poll.totalVotes === 0
+							h4 Sorry no votes for 
+								em=poll.question  
+								|  yet
+						else
+							h4 #{poll.totalVotes} votes in #{poll.createdBefore}
+						if voted
+							p.bg-info You voted for option 
+								em #{poll.options[voted].option}
+								a.btn.btn-default.btn-xs.pull-right(href="#{poll.tweet} - check results - #{poll.permalink}", target="_blank")
+												i.fa.fa-twitter
+												|  tweet
+						else
+							p.bg-info You can vote 
+								a.btn.btn-primary.btn-xs(href="#{poll.permalink}") here
+					.content-body
+						if poll.totalVotes != 0
+							.panel.panel-default.poll-results
+								.panel-heading
+									.question=poll.question
+								ul.list-group
+									for option, i in poll.options
+										li.list-group-item
+											.option(class = ( i == voted ? "selected" : "" ))= option.option
+												span.votes #{option.votes} votes - #{option.votePct}%
+								.panel-footer
+									.poll-graph
+										for option, i in poll.options
+											.graph-row
+												.bar.bar-label.under= option.option
+												.bar.bar-line(style='width: #{option.votePct}%;')
+													.bar.bar-label.over= option.option		

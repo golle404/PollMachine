@@ -5,7 +5,7 @@ block content
 		.row
 			.new-poll
 				h2 Create new poll
-				form.form-horizontal(action="/poll-submit", method="post")
+				form.form-vertical(action="/poll-submit", method="post")
 					.panel.panel-default
 						.panel-body
 							.input-group.input-group-lg
@@ -15,9 +15,9 @@ block content
 							.input-group
 								input.pool-option.form-control(type='text', placeholder='Option 2', name="options", required)
 							.input-group.template
+								input.poll-option.form-control(type='text', name="options")
 								.btn-close.pull-right
 									i.fa.fa-times
-								input.poll-option.form-control(type='text', name="options")
 							button.btn.btn-primary.btn-xs.pull-right(type='button', id="add-option") Add Option
 						.panel-footer
 							.row

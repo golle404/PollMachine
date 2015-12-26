@@ -12,13 +12,13 @@ passport.use(new LocalStrategy(Account.authenticate()));
 // github strategy - using token as password
 passport.use(new GithubStrategy(config.github,
 	function (accessToken, refreshToken, profile, done) {
-		registerAccount(profile.username, accessToken, done);
+		registerAccount(profile.username, "github", accessToken, done);
 }));
 
 // twitter strategy - using token as password
 passport.use(new TwitterStrategy(config.twitter,
 	function (accessToken, refreshToken, profile, done) {
-		registerAccount(profile.username, accessToken, done);
+		registerAccount(profile.username, "twitter", accessToken, done);
 	}));
 
 // serialize and deserialize
@@ -26,7 +26,7 @@ passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
 // register account
-function registerAccount(username, password, callback) {
+function registerAccount(username,domain, password, callback) {
 	//check if username is already taken
 	Account.findOne({
 		username: username
@@ -41,7 +41,8 @@ function registerAccount(username, password, callback) {
 		} else {
 			// if not than create one
 			Account.register(new Account({
-					username: username
+					username: username,
+					domain: domain
 				}),
 				password,
 				function (err, data) {

@@ -3,16 +3,30 @@ extends ./layout.jade
 block content
 	.container
 		.row
-			form(action="/vote", method="post").poll-block
-				.panel.panel-default
-					.panel-heading
-						h3= poll.question
-					ul.list-group
-						for option, i in poll.options
-							li.list-group-item
-								input.option-input(type='radio', id="option#{i}", name="optionId", value="#{i}", required)
-								label.option-label(for="option#{i}")= option.option
-									i.fa.fa-check.pull-right
-					.panel-footer
-						input(type="hidden", id="#{poll.id}",name="pollId", value="#{poll.id}")
-						button.btn.btn-primary(type='submit') Vote
+			.content
+				.row
+					.content-header
+						h1 Poll by 
+							span.username=poll.owner
+							span.domain @#{user.domain}
+						p.bg-info(title="#{poll.created}") #{poll.totalVotes} 
+							|votes in #{poll.createdBefore} 
+							a.btn.btn-primary.btn-xs(href="#{poll.resultlink}") results 
+							a.btn.btn-primary.btn-xs.pull-right(href="#{poll.tweet} - vote here - #{poll.permalink}", target="_blank")
+								|tweet 
+								i.fa.fa-twitter
+				.row
+					.content-body
+						form(action="/vote", method="post").poll-block
+							.panel.panel-default
+								.panel-heading
+									h3= poll.question
+								ul.list-group
+									for option, i in poll.options
+										li.list-group-item
+											input.option-input(type='radio', id="option#{i}", name="optionId", value="#{i}", required)
+											label.option-label(for="option#{i}")= option.option
+												i.fa.fa-check.pull-right
+								.panel-footer
+									input(type="hidden", id="#{poll.id}",name="pollId", value="#{poll.id}")
+									button.btn.btn-primary(type='submit') Vote
