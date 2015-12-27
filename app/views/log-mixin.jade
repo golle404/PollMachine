@@ -1,0 +1,23 @@
+mixin logform(login)
+	.panel.panel-default.login-panel
+		.panel-heading
+			if(login)
+				h3.panel-title Login 
+					span or 
+					a(href='/register') register
+			else
+				h3.panel-title Register 
+					span or 
+					a(href='/login') login
+		.panel-body
+			.form-login
+				form(role='form',  action=(login ? "/login" : "/register"),method="post")
+					input.form-control(type='text', name="username", placeholder='Username', autofocus, required)
+					input.form-control(type='password', name="password", placeholder='Password', required)
+					input.btn.btn-primary(type='submit', value=(login ? "Login" : "Register"))
+			.oauth-login
+				p Use your Github or Twitter account to log in:
+				a.btn.btn-info(href="/auth/github") Login via Github
+					i.fa.fa-github.pull-right
+				a.btn.btn-info(href="/auth/twitter") Login via Twitter
+					i.fa.fa-twitter.pull-right

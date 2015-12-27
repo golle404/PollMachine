@@ -16,14 +16,13 @@ Frameworks and libraries used:
 - bootstrap
 - jQUery
 
-current version 0.4.1 
+current version 0.4.5
 
 TODO
 
 - layout
 - disable loged user to go to login/register page
 	redirect to logout
-- fix page title where doesn't work
 - ????
 - profit
 

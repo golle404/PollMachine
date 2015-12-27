@@ -3,33 +3,35 @@ extends ./layout.jade
 block content
 	.container
 		.row
-			.new-poll
-				h2 Create new poll
-				form.form-vertical(action="/poll-submit", method="post")
-					.panel.panel-default
-						.panel-body
-							.input-group.input-group-lg
-								input.poll-question.form-control(type='text', placeholder='Poll Question', name="question", required)
-							.input-group
-								input.pool-option.form-control(type='text', placeholder='Option 1', name="options", required)
-							.input-group
-								input.pool-option.form-control(type='text', placeholder='Option 2', name="options", required)
-							.input-group.template
-								input.poll-option.form-control(type='text', name="options")
-								.btn-close.pull-right
-									i.fa.fa-times
-							button.btn.btn-primary.btn-xs.pull-right(type='button', id="add-option") Add Option
-						.panel-footer
-							.row
-								.footer-group
-									button.btn.btn-primary(type='submit') Submit
-									input.private-check(type="checkbox", name="private" id="private")
-									
-									label.private-label.pull-right(for="private")
-										.public Public  
-											i.fa.fa-check-circle-o
-										.private Private  
-											i.fa.fa-ban
-									label.key-label.pull-right(for="key")
-										input.form-control(type="text", name="key", id="key", placeholder="Private key")
-								
+			.content
+				.row
+					.content-header
+						h1 Create new poll
+					.content-body
+						form.new-poll(action="/poll-submit", method="post")
+							.panel.panel-default
+								.panel-body
+									.input-group.input-group-lg
+										input.poll-question.form-control(type='text', placeholder='Poll Question', name="question", required)
+									.input-group
+										input.pool-option.form-control(type='text', placeholder='Option 1', name="options", required)
+									.input-group
+										input.pool-option.form-control(type='text', placeholder='Option 2', name="options", required)
+									.input-group.template
+										input.poll-option.form-control(type='text', name="options")
+										.btn-close.pull-right
+											i.fa.fa-times
+									button.btn.btn-primary.btn-xs.pull-right(type='button', id="add-option") Add Option
+								.panel-footer
+									.row
+										.form-footer
+											button.btn.btn-primary(type='submit') Submit
+											input.private-check(type="checkbox", name="private" id="private")
+
+											label.private-label.pull-right(for="private")
+												.public Public  
+													i.fa.fa-check-circle-o
+												.private Private  
+													i.fa.fa-ban
+											label.key-label.pull-right(for="key")
+												input.form-control(type="text", name="key", id="key", placeholder="Private key")
