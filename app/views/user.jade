@@ -19,32 +19,5 @@ block content
 				.row
 					.content-body.poll-list
 						if polls
-							ul.list-group
-								for poll in polls
-									li.list-group-item
-										p.question
-											a(href="#{poll.permalink}")=poll.question
-											a.btn.btn-default.btn-sm.pull-right(href="#{poll.tweet} - vote here - #{poll.permalink}", target="_blank")
-												i.fa.fa-twitter
-												|  tweet
-										ul.button-group
-											if poll.private === "off"
-												li
-													span.label.label-info public
-											else
-												li
-													span.label.label-warning private 
-													span.info key: 
-													span.label.label-warning #{poll.privateKey}
-											li
-												span.info(title="#{poll.created}")= poll.createdBefore  
-													|   ago
-											li 
-												span.info total votes
-												span.badge= poll.totalVotes
-											li
-												a.btn.btn-primary.btn-xs(href="#{poll.resultlink}") results
-											li
-												a.btn.btn-primary.btn-xs(href="#{poll.permalink}") permalink
-											li.pull-right
-												a.btn.btn-danger.btn-xs(href="/remove-poll/#{poll.id}") delete
+							include ./poll-list.jade
+							

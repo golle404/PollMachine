@@ -17,10 +17,10 @@ block content
 								i.fa.fa-twitter
 				.row
 					.content-body
-						form(action="/vote", method="post").poll-block
-							.panel.panel-default
+						form(action="/vote", method="post").poll-form
+							.panel.panel-default.poll-panel
 								.panel-heading
-									h3= poll.question
+									.poll-question=poll.question
 								ul.list-group
 									for option, i in poll.options
 										li.list-group-item

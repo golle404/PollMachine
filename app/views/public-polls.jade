@@ -3,29 +3,13 @@ extends ./layout.jade
 block content
 	.container
 		.row
-			.public-polls
-				if polls
-					h3 List of public polls you can vote to
-					.row
-						.poll-list
-							ul.list-group
-								for poll in polls
-									li.list-group-item
-										p.question
-											a(href="/poll/#{poll.id}")=poll.question
-											a.btn.btn-default.btn-sm.pull-right(href="#{poll.tweet}", target="_blank")
-												i.fa.fa-twitter
-												|  tweet
-										ul.button-group
-											li
-												span.info(title="#{poll.created}")= poll.createdBefore  
-													|   ago
-											li 
-												span.info total votes
-												span.badge= poll.totalVotes
-											li
-												a.btn.btn-primary.btn-xs(href="/poll-results/#{poll.id}") results
-											li
-												a.btn.btn-primary.btn-xs(href="/poll/#{poll.id}") permalink
-				else
-					h3 Sorry, there are no public polls at the moment.
+			.content
+				.row
+					.content-header
+						if polls
+							h1 List of public polls you can vote to
+						else
+							h3 Sorry, there are no public polls at the moment.
+					.content-body
+						if polls
+							include ./poll-list.jade

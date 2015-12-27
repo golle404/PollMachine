@@ -1,0 +1,30 @@
+li.poll-list-item
+	.poll-question
+		a(href="#{poll.permalink}")=poll.question
+		a.btn.btn-default.btn-sm.pull-right(href="#{poll.tweet} - vote here - #{poll.permalink}", target="_blank")
+			i.fa.fa-twitter
+			|  tweet
+	ul.poll-details
+		if user
+			if poll.private === "off"
+				li
+					span.poll-label.public public
+			else
+				li
+					span.poll-label.private private  
+					|  key: 
+					span.poll-label.private #{poll.privateKey}
+		li(title="#{poll.created}")= poll.createdBefore  
+			|   ago
+		li 
+			span.poll-label.total total votes  
+				.badge= poll.totalVotes
+		li
+			a.btn.btn-primary.btn-xs(href="#{poll.resultlink}") results
+		li
+			a.btn.btn-primary.btn-xs(href="#{poll.permalink}") permalink
+		if user
+			li.pull-right
+				a.btn.btn-danger.btn-xs(href="/remove-poll/#{poll.id}") delete
+			
+			

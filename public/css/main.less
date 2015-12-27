@@ -65,20 +65,23 @@
 .content-body{
 	.make-xs-column(12);
 }
-
-
-.poll-results{
+.poll-panel{
 	.panel-heading, .list-group-item{
 		padding: 0;
 		margin: 0;
 	}
-	.question{
-		font-size: 28px;
-		font-weight: bold;
-		font-variant: small-caps;
-		text-align: center;
-		padding: 4px 0;
+	.list-group-item{
+		padding: 2px;
 	}
+}
+.panel-heading .poll-question{
+	font-size: 28px;
+	font-weight: bold;
+	font-variant: small-caps;
+	text-align: center;
+	padding: 4px 0;
+}
+.poll-results{
 	.option{
 		padding: 8px 18px;
 		font-size: 20px;
@@ -127,7 +130,39 @@
 	
 }
 
-
+.poll-form{
+	.panel-footer{
+		text-align: center;
+		.btn{
+			padding: 6px 50px;
+		}
+	}
+	.option-label{
+		width: 100%;
+		height: 100%;
+		padding: 8px 16px;
+		margin: 0;
+		cursor: pointer;
+		font-size: 20px;
+		&:hover{
+			background-color: @brand-success;
+			color: #fff;
+		}
+		.fa{
+			display: none;
+		}
+	}
+	.option-input{
+		display: none;
+	}
+	.option-input:checked ~ .option-label{
+		background-color: @brand-success;
+		color: #fff;
+		.fa{
+			display: inline-block;
+		}
+	}
+}
 
 .home-block{
 	text-align: center;
@@ -148,11 +183,14 @@
 
 .poll-list{
 	margin-top: 10px;
-	.list-group-item{
+	padding: 0;
+	.poll-list-item{
 		padding: 0;
     	margin-bottom: 8px;
+		list-style: none;
+		border: 1px solid @gray-lighter;
 	}
-	.question{
+	.poll-question{
 		font-size: 26px;
 		margin: 0;
 		padding: 6px 12px;
@@ -163,10 +201,10 @@
 			}
 		}
 	}
-	.button-group{
+	.poll-details{
 		margin: 0;
 		padding: 8px;
-		background-color: #eee;
+		background-color: @gray-lighter;
 		font-size: 14px;
 		margin: 0;
 		display: inline-table;
@@ -175,14 +213,25 @@
 			float: left;
 			list-style: none;
 			padding: 0 4px;
-		}
-		.label{
 			margin: 2px;
-		}
-		.info{
 			font-size: 12px;
-			margin: 2px;
-			color: #888;
+			color: @gray;
+			line-height: 24px;
+			
+		}
+		.poll-label{
+			.btn;
+			.btn-xs;
+			pointer-events: none;
+			&.public{
+				.btn-info;
+			}
+			&.private{
+				.btn-warning;
+			}
+			&.total{
+				.btn-success;
+			}
 		}
 	}
 }
@@ -294,48 +343,7 @@
 		text-align: center;
 	}
 }
-.poll-block{
-	h3{
-		text-align: center;
-		font-size: 24px;
-		margin: 0;
-	}
-	.panel-footer{
-		text-align: center;
-		.btn{
-			padding: 6px 50px;
-		}
-	}
-	.list-group-item{
-		padding: 2px;
-		list-style: none;
-	}
-	.option-label{
-		width: 100%;
-		height: 100%;
-		padding: 8px 16px;
-		margin: 0;
-		cursor: pointer;
-		font-size: 20px;
-		&:hover{
-			background-color: @brand-success;
-			color: #fff;
-		}
-		.fa{
-			display: none;
-		}
-	}
-	.option-input{
-		display: none;
-	}
-	.option-input:checked ~ .option-label{
-		background-color: @brand-success;
-		color: #fff;
-		.fa{
-			display: inline-block;
-		}
-	}
-}
+
 
 
 //my vars

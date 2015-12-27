@@ -24,9 +24,9 @@ block content
 								a.btn.btn-primary.btn-xs(href="#{poll.permalink}") here
 					.content-body
 						if poll.totalVotes != 0
-							.panel.panel-default.poll-results
+							.panel.panel-default.poll-results.poll-panel
 								.panel-heading
-									.question=poll.question
+									.poll-question=poll.question
 								ul.list-group
 									for option, i in poll.options
 										li.list-group-item
