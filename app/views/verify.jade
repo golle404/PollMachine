@@ -3,9 +3,16 @@ extends ./layout.jade
 block content
 	.container
 		.row
-			.user-header
-				form(action="/verify", method="post")
-					label(for="key") Enter verification key
-					input(type="text", id="key", name="key", autofocus)
-					input(type="hidden", value="#{id}" name="id")
-					input(type="submit")
+			.content
+				.row
+					.content-header
+						h1 Private Poll
+						p.bg-info Please enter the access code provided to you by the pool creator 
+					.content-body
+						form.verify-form(action="/verify", method="post")
+							.row
+								.col-xs-6.col-xs-offset-3.text-center
+									input.form-control(type="text", id="key", name="key", placeholder="Access Code" autofocus)
+									input(type="hidden", value="#{id}" name="id")
+									br
+									input.btn.btn-primary(type="submit", value="Verify")

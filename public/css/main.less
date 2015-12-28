@@ -31,6 +31,7 @@
 @import "../lib/bootstrap/less/alerts.less";
 @import "../lib/bootstrap/less/labels.less";
 @import "../lib/bootstrap/less/badges.less";
+@import "../lib/bootstrap/less/theme.less";
 // Utility classes
 @import "../lib/bootstrap/less/utilities.less";
 @import "../lib/bootstrap/less/responsive-utilities.less";
@@ -83,52 +84,56 @@
 }
 
 .poll-results{
-	.option{
-		padding: 8px 18px;
-		font-size: 20px;
-		&.selected{
-			.bg-success;
-		}
+	.panel-body{
+		padding: 6px 20px 0 20px;
 	}
-	.votes{
-		.pull-right;
-		font-size: 16px;
-		color: @gray;
+	.result-table-header{
+		font-size: 18px;
+		font-weight: bold;
+		color: #fff;
+		background-color: @brand-primary;
+		padding: 6px 0;
 	}
-}
-
-.poll-graph{
-	width: 100%;
-	padding: 5px;
-	.graph-row{
+	.result-list{
 		width: 100%;
-		height: 36px;
-		position: relative;
-		margin-bottom: 5px;
-		.bar{
-			position: absolute;
-			top: 0;
-			left: 0;
-			height: 100%;
-			&.bar-line{
-				background-color: @brand-primary;
-				overflow: hidden;
-			}
-			&.over{
-				color: #fff;
-			}
-			&.under{
-				color: #000;
-			}
-			&.bar-label{
-				line-height: 36px;
-				font-size: 20px;
-				font-weight: bold;
-				text-indent: 10px;
-			}
+		padding: 0;
+		margin: 0;
+		margin-bottom: 4px;
+	}
+	.result-list-item{
+		width: 100%;
+		list-style: none;
+		border-bottom: 1px solid @gray-lighter;
+		display: inline-block;
+		vertical-align: middle;
+		margin-bottom: 1px;
+		color: @gray-light;
+		&.selected{
+			color: @brand-primary;
 		}
 	}
-	
+	.option{
+		.make-xs-column(6);
+	}
+	.votes, .pct, .graph{
+		.make-xs-column(2);
+	}
+	.votes, .pct, .option{
+		padding: 8px 14px;
+		font-size: 16px;
+		font-weight: bold;
+	}
+	.graph{
+		padding: 3px;
+		margin-top: 4px;
+		.bg-info;
+	}
+	.graph-bar{
+		height: 26px;
+		.bg-primary;
+		.progress-bar-striped;
+		
+	}
 }
 
 .poll-form{
@@ -319,4 +324,8 @@
 			}
 		}
 	}
+}
+
+.verify-form{
+	
 }

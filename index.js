@@ -35,7 +35,7 @@ app.use(cookieParser("karamba"));
 
 // middlewares
 app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
+app.use(logger());
 
 //session
 app.use(session({
@@ -55,7 +55,7 @@ app.locals.layout = {
 	active: null,
 	title: null,
 	info: null,
-	baseUrl: "http://localhost:3000"
+	baseUrl: "http://127.0.0.1:3000"
 };
 
 // router

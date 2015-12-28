@@ -27,15 +27,17 @@ block content
 							.panel.panel-default.poll-results.poll-panel
 								.panel-heading
 									.poll-question=poll.question
-								ul.list-group
-									for option, i in poll.options
-										li.list-group-item
-											.option(class = ( i == voted ? "selected" : "" ))= option.option
-												span.votes #{option.votes} votes - #{option.votePct}%
-								.panel-footer
-									.poll-graph
-										for option, i in poll.options
-											.graph-row
-												.bar.bar-label.under= option.option
-												.bar.bar-line(style='width: #{option.votePct}%;')
-													.bar.bar-label.over= option.option		
+								.panel-body
+									.row.result-table-header
+										.col-xs-6 Option
+										.col-xs-2.text-center Votes
+										.col-xs-2.text-center %
+									.row
+										ul.result-list
+											for option, i in poll.options
+												li.result-list-item(class = ( i == voted ? "selected" : "" ))
+													.option= option.option
+													.votes.text-center #{option.votes}
+													.pct.text-center #{option.votePct}%
+													.graph
+														.graph-bar(style='width: #{option.votePct}%;')

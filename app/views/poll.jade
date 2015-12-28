@@ -8,7 +8,8 @@ block content
 					.content-header
 						h1 Poll by 
 							span.username=poll.owner
-							span.domain @#{user.domain}
+							if owner.domain
+								span.domain @#{owner.domain}
 						p.bg-info(title="#{poll.created}") #{poll.totalVotes} 
 							|votes in #{poll.createdBefore} 
 							a.btn.btn-primary.btn-xs(href="#{poll.resultlink}") results 

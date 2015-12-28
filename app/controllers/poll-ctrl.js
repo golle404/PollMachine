@@ -32,16 +32,24 @@ module.exports.addPoll = function (req, res) {
 
 //delete poll - redirect to user view
 module.exports.removePoll = function (req, res) {
-	Poll.findByIdAndRemove(req.params.id, function (err, data) {
-		handle(err);
-		res.redirect("/user/" + req.user.username);
-	});
+	pollById(req.params.id, function(data){
+		if(data.owner === req.user.username){
+			Poll.findByIdAndRemove(req.params.id, function (err, data) {
+				handle(err);
+				res.redirect("/user/" + req.user.username);
+			});
+		}else{
+			res.redirect("/logout");
+		}
+		
+	})
+	
 
 }
 
 // user polls - for user view
 module.exports.getUserPolls = function (req, res) {
-	console.log(req.protocol, req.originalUrl, req.get("host"));
+	
 	// template data
 	var templateData = {}
 		// find query
@@ -69,6 +77,7 @@ module.exports.getUserPolls = function (req, res) {
 
 // single poll data
 module.exports.getPollById = function (req, res) {
+	
 	// if user is already voted redirect to pool results
 	if (req.cookies["poll-voted-" + req.params.id]) {
 		res.redirect("/poll-results/" + req.params.id);
@@ -83,7 +92,7 @@ module.exports.getPollById = function (req, res) {
 				req.app.locals.layout.title = data.question;
 				//get owner data
 				getUser(data.owner, function (user) {
-					templateData.user = user;
+					templateData.owner = user;
 					res.render("poll", templateData);
 				})
 			} else {
@@ -94,7 +103,7 @@ module.exports.getPollById = function (req, res) {
 					templateData.poll = formatPolls([data], req)[0];
 					//get owner data
 					getUser(data.owner, function (user) {
-						templateData.user = user;
+						templateData.owner = user;
 						res.render("poll", templateData);
 					})
 						//res.render("poll", templateData);
@@ -126,6 +135,7 @@ module.exports.verifyKey = function (req, res) {
 
 // list of public polls
 module.exports.getPublicPolls = function (req, res) {
+	
 	// template data object
 	var templateData = {}
 		// model query
@@ -176,6 +186,7 @@ module.exports.vote = function (req, res) {
 
 // poll results - just results with no option to vote
 module.exports.pollResults = function (req, res) {
+	
 	// param object
 	var templateData = {}
 		// check cookie with poll id in name - if exists

@@ -69,10 +69,10 @@ router.get("/new-poll", layout, accountCtrl.logCheck, function (req, res) {
 router.get("/remove-poll/:id", accountCtrl.logCheck, pollCtrl.removePoll);
 
 // poll view - for voting
-router.get("/poll/:id",layout, pollCtrl.getPollById);
+router.get("/poll/:id", layout, pollCtrl.getPollById);
 
 // poll-results - just results
-router.get("/poll-results/:id",layout, pollCtrl.pollResults);
+router.get("/poll-results/:id", layout, pollCtrl.pollResults);
 
 // private poll verification form 
 router.get("/verify/:id", layout, function (req, res) {
@@ -106,7 +106,7 @@ router.post("/verify", pollCtrl.verifyKey);
 // github
 router.get('/auth/github', passport.authenticate('github', {
 	scope: ['user:email']
-}), function (req, res) {});
+}));
 
 router.get('/auth/github/callback',
 	passport.authenticate('github', {

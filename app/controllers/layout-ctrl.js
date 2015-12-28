@@ -3,12 +3,13 @@
 module.exports.layout = function (req, res, next) {
 	// get app locals
 	var loc = req.app.locals.layout;
-	// reset
-	loc.username = null;
+	// reset info
 	loc.info = null;
 	// username if loged in
 	if (req.user) {
 		loc.username = req.user.username;
+	}else{
+		loc.username = null;
 	}
 	// route path for active links
 	loc.active = req.route.path;
@@ -23,7 +24,6 @@ module.exports.layout = function (req, res, next) {
 		loc.info = "Sorry. That username already exists. Try again.";
 		loc.active = "/register";
 	}
-	
 	next();
 }
 

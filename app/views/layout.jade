@@ -36,7 +36,7 @@ head
 					ul.nav.navbar-nav.navbar-right
 						if layout.username
 							li(class={active: layout.active === '/user'})
-								a(href='/user/#{username}')= layout.username
+								a(href='/user/#{layout.username}')= layout.username
 							li
 								a(href='/logout') Logout
 						else
