@@ -1,6 +1,22 @@
 .footer{
-	bottom: 0;
 	height: 40px;
 	width: 100%;
 	background-color: @gray;
+}
+.social-links{
+	.make-xs-column(12);
+	margin-top: 6px;
+	color: white;
+	.btn-social{
+		.btn;
+		color: @gray;
+		background-color: #fff;
+		padding: 2px 8px;
+		margin: 2px;
+		transition: border-radius 250ms ease;
+		&:hover{
+			border-radius: 30px;
+		}
+	}
+
 }

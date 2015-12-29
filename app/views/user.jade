@@ -11,9 +11,9 @@ block content
 							if user.domain
 								span.domain @#{user.domain}
 						if !polls
-							h4 It seams you dont have any polls created.
+							p.lead.text-center It seams you dont have any polls created.
 						else
-							h4 Check results of your polls or
+							p.lead.text-center Check results of your polls or
 						p.text-center
 							a.btn.btn-primary(type='button' href="/new-poll/") Create new poll
 				.row

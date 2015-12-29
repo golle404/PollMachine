@@ -2,10 +2,21 @@ extends ./layout.jade
 
 block content
 	.container
-		.home-block.jumbotron
-			h1 Poll-Machine
-			p  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam quia nihil necessitatibus odit earum aspernatur eos aliquid, odio commodi nobis maiores vel provident obcaecati, amet velit corporis placeat alias perspiciatis!
-			p
-				a.btn.btn-primary(href='/login') Login 
-				a.btn.btn-primary(href='/register') Register 
-				a.btn.btn-primary(href='/public-polls') Public Polls
+		.content
+			.row
+				.content-header
+					h1 Poll-Machine
+					p.lead.text-center Simple app for creating and managing polls
+					p Or, if you just want to vote on something, 
+						mark
+							a(href="/public-polls") here
+						|	is list of public polls where you can do just that. This one is pretty interesting by the way. Here is another one you might like, although it is private poll so you will need to know secret key in order to vote. Here is a hint: it is 
+						mark lowercase :-)
+			.row
+				.content-body
+					p.text-center
+						a.btn.btn-primary(href='/login') Login
+						|	
+						a.btn.btn-primary(href='/register') Register
+						|	
+						a.btn.btn-primary(href='/public-polls') Public Polls

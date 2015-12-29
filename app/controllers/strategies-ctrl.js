@@ -4,19 +4,19 @@ var GithubStrategy = require('passport-github2').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
 
-var config = require('../oauth.js');
+var oauth = require('../oauth.js');
 
 // local strategy
 passport.use(new LocalStrategy(Account.authenticate()));
 
 // github strategy - using token as password
-passport.use(new GithubStrategy(config.github,
+passport.use(new GithubStrategy(oauth.github,
 	function (accessToken, refreshToken, profile, done) {
 		registerAccount(profile.username, "github", accessToken, done);
 }));
 
 // twitter strategy - using token as password
-passport.use(new TwitterStrategy(config.twitter,
+passport.use(new TwitterStrategy(oauth.twitter,
 	function (accessToken, refreshToken, profile, done) {
 		registerAccount(profile.username, "twitter", accessToken, done);
 	}));

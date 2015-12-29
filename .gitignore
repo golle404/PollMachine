@@ -38,3 +38,6 @@ data
 
 # oauth ids
 app/oauth.js
+
+# configuration
+config.js

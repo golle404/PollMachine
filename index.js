@@ -15,6 +15,8 @@ var routes = require('./app/routes/routes');
 // strategies
 var strategies = require("./app/controllers/strategies-ctrl");
 
+//some configuration
+var cfg = require("./config").config;
 // express app
 var app = express();
 
@@ -35,7 +37,7 @@ app.use(cookieParser("karamba"));
 
 // middlewares
 app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger());
+app.use(logger("combined"));
 
 //session
 app.use(session({
@@ -55,7 +57,7 @@ app.locals.layout = {
 	active: null,
 	title: null,
 	info: null,
-	baseUrl: "http://127.0.0.1:3000"
+	baseUrl: "http://"+cfg.ip
 };
 
 // router
@@ -75,8 +77,8 @@ process.on('SIGINT', function () {
 });
 
 // listen
-var port = process.env.PORT || 3000;
-var ip = process.env.IP || "127.0.0.1"
+var port = process.env.PORT || cfg.port;
+var ip = process.env.IP || cfg.ip;
 app.listen(port, ip, function () {
 	console.log("Server listening at", ip + ":" + port);
 });

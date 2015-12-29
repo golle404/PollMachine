@@ -8,11 +8,11 @@ block content
 					.content-header
 						h1 Poll results
 						if poll.totalVotes === 0
-							h4 Sorry no votes for 
+							p.lead.text-center Sorry no votes for 
 								em=poll.question  
 								|  yet
 						else
-							h4 Poll by 
+							p.lead.text-center Poll by 
 								mark #{poll.owner} 
 								| - #{poll.totalVotes} votes in #{poll.createdBefore}
 						if voted

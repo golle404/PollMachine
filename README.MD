@@ -5,25 +5,35 @@ manage them and view results.
 
 Test page - https://poll-machine-golle404.c9users.io/home
 
-This project is build as part of freeCodeCamp curiculum.
+This project is build as part of freeCodeCamp curriculum.
 
 Frameworks and libraries used:
 
 - node.js
 - express.js
-- mongoose database
+- mongodb database
 - passport.js
 - bootstrap
 - jQUery
 
-current version 0.4.5
+current version 0.4.8
 
-TODO
+Usage
 
-- layout
-- disable loged user to go to login/register page
-	redirect to logout
-- ????
-- profit
+download with 
+	git pull https://github.com/golle404/PollMachine.git
+install
+	npm install
+then	
+	bower install
+	
+edit app/_oauth.js to include you own API keys and rename file to "oauth.js" (without underscore)
 
+edit _config.js if needed and rename file to "config.js" (without underscore)
 
+if on windows you can start both server (with nodemon) and mongo with 
+	npm start
+otherwise start separately
+	node index.js
+	
+	mongod

@@ -15,6 +15,11 @@ router.get("/home", layout, function (req, res) {
 	//console.log("glob",req.glob);
 	res.render("home");
 })
+// about
+router.get("/about", layout, function (req, res) {
+	//console.log("glob",req.glob);
+	res.render("about");
+})
 
 // home redirect
 router.get("/", function (req, res) {
