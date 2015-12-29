@@ -201,7 +201,11 @@ module.exports.pollResults = function (req, res) {
 			var voted = poll.options.filter(function(option){
 				return option.id === req.cookies["poll-voted-" + req.params.id];
 			})
-			templateData.voted = voted[0];
+			templateData.votedOption = voted[0].option;
+			templateData.votedId = voted[0].id;
+ 		}else{
+			templateData.votedOption = null;
+			templateData.votedId = "";
 		}
 		req.app.locals.layout.title = data.question + " - Results";
 		res.render("poll-results", templateData);

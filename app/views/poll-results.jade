@@ -15,9 +15,9 @@ block content
 							p.lead.text-center Poll by
 								mark #{poll.owner} 
 								| - #{poll.totalVotes} votes in #{poll.createdBefore}
-						if voted
+						if votedOption
 							p.bg-info You voted for option 
-								em #{voted.option}
+								em #{votedOption}
 								a.btn.btn-default.btn-xs.pull-right(href="#{poll.tweet} - check results - #{poll.permalink}", target="_blank")
 												i.fa.fa-twitter
 												|  tweet
@@ -37,7 +37,7 @@ block content
 									.row
 										ul.result-list
 											for option, i in poll.options
-												li.result-list-item(class = ( option.id == voted.id ? "selected" : "" ))
+												li.result-list-item(class = (option.id == votedId ? "selected" : "" ))
 													.option= option.option
 													.votes.text-center #{option.votes}
 													.pct.text-center #{option.votePct}%
