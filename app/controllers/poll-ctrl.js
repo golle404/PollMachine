@@ -89,7 +89,7 @@ module.exports.getPollById = function (req, res) {
 			// if pool is public render view with data
 			if (data.private === "off") {
 				templateData.poll = formatPolls([data], req)[0];
-				req.app.locals.layout.title = data.question;
+				req.app.locals.layout.title = data.question + " - Vote";
 				//get owner data
 				getUser(data.owner, function (user) {
 					templateData.owner = user;
@@ -101,12 +101,12 @@ module.exports.getPollById = function (req, res) {
 				if (req.cookies["poll-key-" + req.params.id] === data.privateKey) {
 					// if verified show poll
 					templateData.poll = formatPolls([data], req)[0];
+					req.app.locals.layout.title = data.question  + " - Vote";
 					//get owner data
 					getUser(data.owner, function (user) {
 						templateData.owner = user;
 						res.render("poll", templateData);
 					})
-						//res.render("poll", templateData);
 				} else {
 					// if not verified redirect to verify form
 					res.redirect("/verify/" + req.params.id);
@@ -196,8 +196,9 @@ module.exports.pollResults = function (req, res) {
 		templateData.voted = req.cookies["poll-voted-" + req.params.id];
 	}
 	pollById(req.params.id, function (data) {
-		var poll = formatPolls([data], req)[0];
+		var poll = formatPolls([data], req, true)[0];
 		templateData.poll = poll;
+		req.app.locals.layout.title = data.question  + " - Results";
 		res.render("poll-results", templateData);
 	})
 }
@@ -260,20 +261,21 @@ function createdBefore(date) {
 }
 
 //format poll list
-function formatPolls(polls, req) {
+function formatPolls(polls, req, sort) {
 	return polls.map(function (v) {
 		// calculate total votes
 		v.totalVotes = v.options.reduce(function (p, c) {
 			return p += c.votes;
 		}, 0)
+		if(sort){
+			v.options = v.options.sort(function(a,b){
+				return a.votes < b.votes;
+			})
+		}
 		v.options = v.options.map(function (o) {
 				o.votePct = Math.round(100 * o.votes / v.totalVotes);
 				return o;
 			})
-			//owner and login domain
-			//var ownerdom = v.owner.split("@");
-			//v.username = ownerdom[0];
-
 		// created before
 		v.createdBefore = createdBefore(v.created);
 		// links

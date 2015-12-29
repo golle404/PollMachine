@@ -1,0 +1,49 @@
+.new-poll{
+	.input-group{
+		position: relative;
+		width: 100%;
+		padding: 4px;
+		&.template{
+			display: none;
+		}
+		.btn-close{
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			z-index: 10;
+			cursor: pointer;
+		}
+	}
+	.form-footer{
+		.make-xs-column(12);
+		min-height: 40px;
+		.key-label{
+			display: none;
+		}
+		.private-label{
+			.btn;
+			.btn-info;
+			.fa{
+				font-size: large;
+			}
+			.private{
+				display: none;
+			}
+		}
+		.private-check{
+			display: none;
+		}
+		.private-check:checked ~ .key-label{
+			display: inline;
+		}
+		.private-check:checked ~ .private-label{
+			.btn-warning;
+			.private{
+				display: inline-block;
+			}
+			.public{
+				display: none;
+			}
+		}
+	}
+}

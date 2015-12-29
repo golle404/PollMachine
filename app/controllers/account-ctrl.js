@@ -35,3 +35,11 @@ module.exports.logCheck = function(req, res, next){
 		res.redirect("/login");
 	}
 }
+// prevent authenticated user to access login/register page
+module.exports.logoutCheck = function(req, res, next){
+	if (req.user) {
+		res.render("logout");
+	} else {
+		next();
+	}
+}

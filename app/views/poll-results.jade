@@ -12,7 +12,9 @@ block content
 								em=poll.question  
 								|  yet
 						else
-							h4 #{poll.totalVotes} votes in #{poll.createdBefore}
+							h4 Poll by 
+								mark #{poll.owner} 
+								| - #{poll.totalVotes} votes in #{poll.createdBefore}
 						if voted
 							p.bg-info You voted for option 
 								em #{poll.options[voted].option}

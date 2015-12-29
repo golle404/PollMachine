@@ -1,0 +1,37 @@
+body{
+	height: 100%;
+}
+.wrap{
+	min-height: 100%;
+	height: auto;
+	margin-bottom: -40px;
+	padding-bottom: 40px;
+}
+.content{
+	.make-sm-column(8);
+	.make-sm-column-offset(2);
+	.make-xs-column(10);
+	.make-xs-column-offset(1);
+}
+.content-header{
+	.make-xs-column(12);
+	h1, h4{
+		text-align: center;
+		padding: 4px;
+	}
+	p{
+		padding: 4px 8px;
+	}
+	.username{
+		color: @gray;
+		font-variant: small-caps;
+	}
+	.domain{
+		font-size: 20px;
+		color: @gray-light;
+	}
+}
+
+.content-body{
+	.make-xs-column(12);
+}

@@ -30,7 +30,7 @@ router.get("/user", accountCtrl.logCheck, function (req, res) {
 router.get("/user/:username", layout, accountCtrl.logCheck, pollCtrl.getUserPolls);
 
 // login view
-router.get("/login", layout, function (req, res) {
+router.get("/login", accountCtrl.logoutCheck, layout, function (req, res) {
 	res.render("login");
 })
 
@@ -41,7 +41,7 @@ router.get("/logout", function (req, res) {
 })
 
 // register view
-router.get("/register", layout, function (req, res) {
+router.get("/register", accountCtrl.logoutCheck, layout, function (req, res) {
 	res.render("register");
 })
 

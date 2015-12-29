@@ -1,0 +1,50 @@
+.login-panel{
+	.panel-title{
+		text-align: center;
+		font-size: 20px;
+		a{
+			font-size: 16px;
+			color: red;
+		}
+		span{
+			color: grey;
+			font-size: 16px;
+		}
+	}
+	.panel-body{
+		padding: 15px 5px;
+	}
+	.form-login, .oauth-login{
+		.make-sm-column(6);
+		.make-xs-column(12);
+	}
+	.form-login{
+		padding-right: 28px;
+		padding-bottom: 12px;
+		input{
+			width: 100%;
+			margin: 8px;
+		}
+	}
+	.oauth-login{
+		.btn{
+			width: 100%;
+			margin: 4px;
+		}
+		p{
+			font-size: 18px;
+			text-align: center;
+			font-style: italic;
+			padding: 0 10px;
+			color: @gray-light;
+		}
+		@media (max-width: @screen-xs-max) {
+			border-top: 1px solid @gray-lighter;
+			padding-top: 18px;
+		}
+		@media (min-width: @screen-sm-min) {
+			border-left: 1px solid @gray-lighter;
+			padding-left: 18px;
+		}
+	}
+}
