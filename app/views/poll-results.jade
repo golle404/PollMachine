@@ -12,12 +12,12 @@ block content
 								em=poll.question  
 								|  yet
 						else
-							p.lead.text-center Poll by 
+							p.lead.text-center Poll by
 								mark #{poll.owner} 
 								| - #{poll.totalVotes} votes in #{poll.createdBefore}
 						if voted
 							p.bg-info You voted for option 
-								em #{poll.options[voted].option}
+								em #{voted.option}
 								a.btn.btn-default.btn-xs.pull-right(href="#{poll.tweet} - check results - #{poll.permalink}", target="_blank")
 												i.fa.fa-twitter
 												|  tweet
@@ -37,7 +37,7 @@ block content
 									.row
 										ul.result-list
 											for option, i in poll.options
-												li.result-list-item(class = ( i == voted ? "selected" : "" ))
+												li.result-list-item(class = ( option.id == voted.id ? "selected" : "" ))
 													.option= option.option
 													.votes.text-center #{option.votes}
 													.pct.text-center #{option.votePct}%

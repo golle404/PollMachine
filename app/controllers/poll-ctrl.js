@@ -32,24 +32,24 @@ module.exports.addPoll = function (req, res) {
 
 //delete poll - redirect to user view
 module.exports.removePoll = function (req, res) {
-	pollById(req.params.id, function(data){
-		if(data.owner === req.user.username){
+	pollById(req.params.id, function (data) {
+		if (data.owner === req.user.username) {
 			Poll.findByIdAndRemove(req.params.id, function (err, data) {
 				handle(err);
 				res.redirect("/user/" + req.user.username);
 			});
-		}else{
+		} else {
 			res.redirect("/logout");
 		}
-		
+
 	})
-	
+
 
 }
 
 // user polls - for user view
 module.exports.getUserPolls = function (req, res) {
-	
+
 	// template data
 	var templateData = {}
 		// find query
@@ -77,7 +77,7 @@ module.exports.getUserPolls = function (req, res) {
 
 // single poll data
 module.exports.getPollById = function (req, res) {
-	
+
 	// if user is already voted redirect to pool results
 	if (req.cookies["poll-voted-" + req.params.id]) {
 		res.redirect("/poll-results/" + req.params.id);
@@ -101,7 +101,7 @@ module.exports.getPollById = function (req, res) {
 				if (req.cookies["poll-key-" + req.params.id] === data.privateKey) {
 					// if verified show poll
 					templateData.poll = formatPolls([data], req)[0];
-					req.app.locals.layout.title = data.question  + " - Vote";
+					req.app.locals.layout.title = data.question + " - Vote";
 					//get owner data
 					getUser(data.owner, function (user) {
 						templateData.owner = user;
@@ -135,7 +135,7 @@ module.exports.verifyKey = function (req, res) {
 
 // list of public polls
 module.exports.getPublicPolls = function (req, res) {
-	
+
 	// template data object
 	var templateData = {}
 		// model query
@@ -186,19 +186,24 @@ module.exports.vote = function (req, res) {
 
 // poll results - just results with no option to vote
 module.exports.pollResults = function (req, res) {
-	
 	// param object
 	var templateData = {}
+		//get poll by id
+	pollById(req.params.id, function (data) {
+		//format and sort results
+		var poll = formatPolls([data], req, true)[0];
+		//add poll to template data object
+		templateData.poll = poll;
 		// check cookie with poll id in name - if exists
 		// user is already voted and we can show them their choise
 		// store value in param object
-	if (req.cookies["poll-voted-" + req.params.id]) {
-		templateData.voted = req.cookies["poll-voted-" + req.params.id];
-	}
-	pollById(req.params.id, function (data) {
-		var poll = formatPolls([data], req, true)[0];
-		templateData.poll = poll;
-		req.app.locals.layout.title = data.question  + " - Results";
+		if (req.cookies["poll-voted-" + req.params.id]) {
+			var voted = poll.options.filter(function(option){
+				return option.id === req.cookies["poll-voted-" + req.params.id];
+			})
+			templateData.voted = voted[0];
+		}
+		req.app.locals.layout.title = data.question + " - Results";
 		res.render("poll-results", templateData);
 	})
 }
@@ -267,8 +272,8 @@ function formatPolls(polls, req, sort) {
 		v.totalVotes = v.options.reduce(function (p, c) {
 			return p += c.votes;
 		}, 0)
-		if(sort){
-			v.options = v.options.sort(function(a,b){
+		if (sort) {
+			v.options = v.options.sort(function (a, b) {
 				return a.votes < b.votes;
 			})
 		}
@@ -276,7 +281,7 @@ function formatPolls(polls, req, sort) {
 				o.votePct = Math.round(100 * o.votes / v.totalVotes);
 				return o;
 			})
-		// created before
+			// created before
 		v.createdBefore = createdBefore(v.created);
 		// links
 		v.permalink = req.app.locals.layout.baseUrl + "/poll/" + v.id;

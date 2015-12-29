@@ -12,21 +12,22 @@ var router = express.Router();
 
 // home route
 router.get("/home", layout, function (req, res) {
-	//console.log("glob",req.glob);
 	res.render("home");
-})
-// about
-router.get("/about", layout, function (req, res) {
-	//console.log("glob",req.glob);
-	res.render("about");
 })
 
 // home redirect
 router.get("/", function (req, res) {
 		res.redirect("/home");
 	})
-	// user proxy route - used after login/register as proxy to 
-	// /user/:usename so we can get username
+
+// about
+router.get("/about", layout, function (req, res) {
+	res.render("about");
+})
+
+
+// user proxy route - used after login/register as proxy to 
+// /user/:usename so we can get username
 router.get("/user", accountCtrl.logCheck, function (req, res) {
 	res.redirect("/user/" + req.user.username);
 })

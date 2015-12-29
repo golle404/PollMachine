@@ -57,7 +57,7 @@ app.locals.layout = {
 	active: null,
 	title: null,
 	info: null,
-	baseUrl: "http://"+cfg.ip
+	baseUrl: "http://"+cfg.ip+":"+cfg.port
 };
 
 // router

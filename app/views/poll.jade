@@ -25,7 +25,7 @@ block content
 								ul.list-group
 									for option, i in poll.options
 										li.list-group-item
-											input.option-input(type='radio', id="option#{i}", name="optionId", value="#{i}", required)
+											input.option-input(type='radio', id="option#{i}", value="#{option.id}", name="optionId", required)
 											label.option-label(for="option#{i}")= option.option
 												i.fa.fa-check.pull-right
 								.panel-footer
