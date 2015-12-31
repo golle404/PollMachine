@@ -35,7 +35,7 @@ then
 	
 edit app/_oauth.js to include you own API keys and rename file to "oauth.js" (without underscore)
 
-edit _config.js if needed and rename file to "config.js" (without underscore)
+edit _.env if needed and rename file to ".env" (without underscore)
 
 if on windows you can start both server (with nodemon) and mongo with 
 

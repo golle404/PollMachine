@@ -292,8 +292,8 @@ function formatPolls(polls, req, sort) {
 			// created before
 		v.createdBefore = createdBefore(v.created);
 		// links
-		v.permalink = req.app.locals.layout.baseUrl + "/poll/" + v.id;
-		v.resultlink = req.app.locals.layout.baseUrl + "/poll-results/" + v.id;
+		v.permalink = process.env.APP_URL + "poll/" + v.id;
+		v.resultlink = process.env.APP_URL + "poll-results/" + v.id;
 		// tweet link
 		v.tweet = "https://twitter.com/intent/tweet?text=" + v.question;
 		return v;
